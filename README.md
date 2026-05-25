@@ -2,6 +2,8 @@
 
 Claude Code skill that audits email deliverability DNS configuration (SPF, DKIM, DMARC) for a list of edrone client domains. Designed for diagnosing high bounce rates on Hotmail/Outlook, where Microsoft has been hard-rejecting (5.7.515) mail with broken DMARC since November 2025.
 
+> **🔗 Companion skill:** [`edrone/spamhaus-check`](https://github.com/edrone/spamhaus-check) — audits **edrone's own infrastructure reputation** (DBL listings of `edrone-click.me`, Barracuda BRBL for SparkPost shared IPs). Use both together for a full deliverability picture: this skill covers **client-side** config, the other covers **edrone-side** reputation.
+
 ## What it does
 
 For each domain, runs DNS queries via `dig` and detects 12 common breakages:
@@ -105,6 +107,7 @@ The CSM team can forward these to clients with minimal editing.
 
 ## Related tools
 
+- **[`edrone/spamhaus-check`](https://github.com/edrone/spamhaus-check)** — companion skill that audits **edrone-owned domains and SparkPost shared IPs** against major DNS blocklists (Spamhaus DBL/ZEN, Barracuda BRBL, SURBL, URIBL, SpamCop, SORBS). Use it when this skill returns `GREEN` for the client but bounces persist — the problem is likely on the edrone-infrastructure side, not the client.
 - **edrone Hermes skill:** `cs-dns-deliverability-audit` (mirror of this skill, callable via Hermes)
 - **SparkPost** — source of bounce data
 - **Microsoft SNDS / JMRP** — IP reputation and feedback loops
